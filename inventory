@@ -1,4 +1,4 @@
-192.168.122.123
-192.168.122.124
-192.168.122.125
+192.168.122.123 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+192.168.122.124 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+192.168.122.125 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
