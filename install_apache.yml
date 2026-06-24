@@ -1,0 +1,27 @@
+---
+
+- hosts: all 
+  tasks: 
+ 
+  - name: update repository 
+    ansible.builtin.dnf:
+      update_cache: true 
+
+  - name: install httpd 
+    ansible.builtin.dnf: 
+      name: httpd 
+      state: latest
+
+  - name: start and enable service 
+    ansible.builtin.systemd: 
+      name: httpd 
+      state: started
+      enabled: true  
+
+
+  - name: open firewall for http traffic 
+    ansible.posix.firewalld: 
+      service: http 
+      permanent: true 
+      state: enabled 
+
