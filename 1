@@ -6,22 +6,22 @@
   tasks:
 
     - name: Install web packages on Debian family
-      ansible.builtin.apt: 
-        name : 
+      ansible.builtin.apt:
+        name:
           - apache2
           - libapache2-mod-php
-        state: latest
+        state: present
         update_cache: yes
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_os_family == "Debian"
 
-    - name: Install web packages on Redhat Family 
+    - name: Install web packages on RedHat family
       ansible.builtin.dnf:
-        name :
+        name:
           - httpd
           - php
-        state: latest
+        state: present
         update_cache: yes
-      when: ansible_distribution == "Rocky"
+      when: ansible_os_family == "RedHat" 
  
 
 

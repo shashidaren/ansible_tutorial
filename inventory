@@ -1,4 +1,10 @@
-192.168.122.123 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-192.168.122.124 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-192.168.122.125 ansible_user=root ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
+[webserver]
+192.168.122.123 ansible_user=root 
+192.168.122.124 ansible_user=root 
+
+[file_server]
+192.168.122.125 ansible_user=root 
+
+[db_server]
+192.168.122.126 ansible_user=root 

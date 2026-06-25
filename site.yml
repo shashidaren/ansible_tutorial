@@ -1,0 +1,70 @@
+---
+
+- hosts: all
+  become: yes
+
+  pre_tasks:
+
+    - name: install updates (rocky)
+      ansible.builtin.dnf:
+        update_only: yes
+        update_cache: yes
+      when: ansible_distribution == "Rocky"
+
+    - name: install updates (ubuntu)
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: webserver
+  become: yes
+
+  tasks:
+
+    - name: Install web packages on Debian family
+      ansible.builtin.apt: 
+        name : 
+          - apache2
+          - libapache2-mod-php
+        state: latest
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install web packages on Redhat Family 
+      ansible.builtin.dnf:
+        name :
+          - httpd
+          - php
+        state: latest
+        update_cache: yes
+      when: ansible_distribution == "Rocky"
+ 
+
+- hosts: db_server 
+  become: yes
+
+  tasks: 
+
+    - name: Update apt cache and upgrade packages
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install MariaDB package (Ubuntu)
+      ansible.builtin.apt:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: file_server 
+  become: yes 
+  
+  tasks: 
+
+   - name : install samba package 
+     ansible.builtin.dnf:
+       name: samba 
+       state : latest 
+
