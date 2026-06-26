@@ -1,0 +1,54 @@
+- name: Install web packages on Debian family
+  tags: apache,apache2,ubuntu
+  ansible.builtin.apt:
+    name :
+      - apache2
+      - libapache2-mod-php
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install web packages on Redhat Family
+  tags: apache,rocky,httpd
+  ansible.builtin.dnf:
+    name :
+      - httpd
+      - php
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "Rocky"
+
+- name: chamge email address for admin
+  tags: apche, rocky,httpd
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin somebody@somewhere.net
+  when: ansible_distribution == "Rocky"
+  register: httpd 
+
+
+- name : restart httpd
+  tags: apache,rocky,httpd
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+  when: httpd.changed
+
+- name: copy default html for site
+  tags: apache,apache2,httpd
+  copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644
+
+- name: start httpd
+  tags: apache,rocky,httpd
+  ansible.builtin.service:
+    name : httpd
+    state : started
+    enabled : yes
+  when: ansible_distribution == "Rocky"
+

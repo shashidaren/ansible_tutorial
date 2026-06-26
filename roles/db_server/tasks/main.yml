@@ -1,0 +1,7 @@
+- name: Install MariaDB package (Ubuntu)
+  tags: db,mariadb,ubuntu
+  ansible.builtin.apt:
+    name: mariadb-server
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
